@@ -20,7 +20,8 @@ window.StarField = (function(){
         this.cleanUp();
 
         this.emitterContainer = new ParticleEmitterContainer(this.webglScene.scene, this.starCount, StarParticleEmitter);
-
+        
+        
 
         this.webglScene.scene.background = new THREE.Color(10/255, 10/255, 30/255);
         var width =  3000; //this.webglScene.width * 1.5; 
@@ -58,12 +59,18 @@ window.StarField = (function(){
         }
     }   
 
+    var pos = 0;
     StarField.prototype.render = function()
     {
         if (! this.emitterContainer) {
             this.create();
         }
+        pos += -0.1
 
+        this.emitterContainer.setRotation(45);
+        //this.emitterContainer.setPosition({x:0, y: pos, z: pos})
+        this.emitterContainer.lookAt(window.webglScene.camera)
+        //this.emitterContainer.setPosition({x: window.webglScene.camera.position.x, y: window.webglScene.camera.position.y - 500, z:0})
         var deltaTime = new Date().getTime() - this.lastAnimationTime;
         this.totalAnimationTime += deltaTime;
         this.emitterContainer.render(0, this.totalAnimationTime, 0, 0, this.zoomChanged);
